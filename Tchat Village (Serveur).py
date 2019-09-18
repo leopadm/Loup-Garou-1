@@ -1,6 +1,6 @@
 import socket, sys, threading, time
 
-HOST = '172.16.230.224'
+HOST = '172.16.236.77'
 PORT = 5000
 
 class ThreadClient(threading.Thread):
@@ -9,10 +9,12 @@ class ThreadClient(threading.Thread):
         threading.Thread.__init__(self)
         self.connexion = conn
         self.nom = it
+        self.LOG = ""
 
     def run(self):
         while 1:
             msgClient = self.connexion.recv(1024).decode('Utf-8')
+            self.LOG = self.LOG + 'Moi -> ' + msgClient + '\n'
             if not msgClient or msgClient.upper() == 'FIN':
                 break
             elif msgClient[0] == '!':
@@ -72,15 +74,16 @@ class ThreadClient(threading.Thread):
             self.renvoi('Commande Inconnue')
 
     def renvoi(self, message):
-            connClient[self.nom].send(message.encode('Utf-8'))
+        connClient[self.nom].send(message.encode('Utf-8'))
+        self.LOG = self.LOG + 'SERVEUR -> ' + message + '\n'
 
     def envoiTous(self, message):
-        print(message)
+        self.LOG = self.LOG + message + '\n'
         for cle in connClient:
             connClient[cle].send(message.encode('Utf-8'))
 
     def envoiTousSauf(self, message):
-
+        self.LOG = self.LOG + message + '\n'
         for cle in connClient:
             if cle != self.nom:
                 connClient[cle].send(message.encode('Utf-8'))
