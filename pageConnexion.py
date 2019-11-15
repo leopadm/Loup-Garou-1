@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter.font as tkFont
+from Assets.Ligne import *
 
 
 class pageConnexion(Frame):
@@ -39,12 +40,26 @@ class pageConnexion(Frame):
 
         milieu = Frame(self, width=480, height=720, bg=gris)
         milieu.place(relx=0.5, rely=0.5, anchor=CENTER)
+
         accueil = Label(milieu, text='Connexion')
         accueil.place(relx=0.5, rely=0.18, anchor=CENTER)
+
         pseudo = Entry(milieu)
         pseudo.place(relx=0.5, rely=0.30, anchor=CENTER)
+
         texte = Frame(milieu, width=400, height=280, bg=grisClair)
         texte.place(relx=0.5, rely=0.40, anchor=N)
+
+        texte2 = Frame(texte, width=400, height=280, bg=grisClair)
+        texte2.grid(sticky='nesw')
+        texte2.grid_propagate(0)
+
+        contenuTexte = Tableau(texte2,[['Alexandre', 'Connecte'],['Leopold', 'En cours']])
+        print(contenuTexte.listeLignes[0].listeCases[0].varTexte.get())
+        contenuTexte.grid(sticky='nesw')
+        contenuTexte.grid_propagate(0)
+        contenuTexte.show()
+
         boutonValid = Button(milieu, text='Valider')
         boutonValid.place(relx=0.5, rely=0.90, anchor=CENTER)
 
@@ -56,6 +71,9 @@ if __name__ == '__main__':
     test = pageConnexion(root)
     test.grid_propagate(0)
     test.place(relx=0.5, rely=0.5, anchor=CENTER)
-    test.pack()
+    test.grid()
+
+    test2 = Tableau(root, [['Alexandre', 'Connecte'],['Leopold', 'En cours']])
+    test2.place()
 
     root.mainloop()
