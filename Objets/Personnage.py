@@ -1,4 +1,5 @@
 from socket import *
+from json import
 
 
 class Personnage(object):
@@ -24,7 +25,7 @@ class Personnage(object):
         pouvoir = 1
         if self.estMaire == True:
             pouvoir = 2
-        self.communique([self.pseudo, "vote", pseudo, str(pouvoir)])
+        self.communique(["vote", pseudo, str(pouvoir)])
 
     def communique(self, instructions):
         commande = instructions[0]
