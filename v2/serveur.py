@@ -77,7 +77,7 @@ connClient = {}
 listeThread = {}
 compteur = 1
 
-listeRoles = ['loup', 'loup', 'sorciere', 'chaman', 'voyante', 'salvateur', 'chasseur']
+listeRoles = ['loup', 'loup', 'sorciere', 'chaman', 'voyante', 'salvateur', 'chasseur' ]
 
 while 1:
     connexion, adresse = mySocket.accept()
