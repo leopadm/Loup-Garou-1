@@ -1,21 +1,44 @@
-import socket, sys, threading, time
+import socket, sys, threading, time, random
 
-HOST = '172.16.230.184'
+HOST = '172.16.232.50'
 PORT = 8888
 
 
 class ThreadClient(threading.Thread):
 
-    def __init__(self, conn, it):
+    def __init__(self, conn, it, role, Jeu):
         threading.Thread.__init__(self)
+        self.role = role
         self.connexion = conn
         self.nom = it
-        msgAccueil = 'Vous etes bien connecte au serveur vous etes : %s' % self.nom
-        self.connexion.send(msgAccueil.encode('Utf-8'))
+        self.Jeu = Jeu
+        self.connexion.send(('Vous etes bien connecte au serveur vous etes : %s\nRole : %s' % (self.nom, self.role)).encode('Utf-8'))
 
     def run(self):
         while True:
             msgClient = self.connexion.recv(1024).decode('Utf-8')
+            self.decompose(msgClient)
+
+    def decompose(self, msg):
+        commandList = ['tue', 'protege', 'regarde']
+
+        commande = -1
+        reste = ''
+        for i in range(len(commandList)):
+            if msg[0:][:len(commandList[i])] == commandList[i]:
+                commande = i
+                reste = msg[len(commandList[i])+1:]
+                print('Commande : %s >> %s' % (commande, reste))
+                break
+
+        if commande == 1:
+            self.Jeu.tue(reste)
+
+        elif commande == 2:
+            self.Jeu.protege(reste)
+
+        elif commande == 3:
+            self.Jeu.regarde(reste)
 
     def renvoi(self, message):
         connClient[self.nom].send(message.encode('Utf-8'))
@@ -26,10 +49,10 @@ class ThreadClient(threading.Thread):
         print(message)
 
     def envoiTousSauf(self, message):
-            for cle in connClient:
-                if cle != self.nom:
-                    connClient[cle].send(message.encode('Utf-8'))
-            print(message)
+        for cle in connClient:
+            if cle != self.nom:
+                connClient[cle].send(message.encode('Utf-8'))
+        print(message)
 
     def deco(self):
         self.connexion.close()
@@ -53,12 +76,21 @@ mySocket.listen(5)
 connClient = {}
 listeThread = {}
 compteur = 1
+
+listeRoles = ['loup', 'loup', 'sorciere', 'chaman', 'voyante', 'salvateur', 'chasseur']
+
 while 1:
     connexion, adresse = mySocket.accept()
 
+    numRole = random.randint(0, len(listeRoles)-1)
+
     it = 'Client-' + str(compteur)
     compteur += 1
-    listeThread[it] = ThreadClient(connexion, it)
+    listeThread[it] = ThreadClient(connexion, it, listeRoles[numRole])
+    print(listeRoles[numRole])
+    del listeRoles[numRole]
+    print(listeRoles)
+
     listeThread[it].start()
     connClient[it] = connexion
 
@@ -69,7 +101,4 @@ while 1:
             if cle != it:
                 connClient[cle].send(msgConnexion.encode('Utf-8'))
     except ConnectionResetError:
-        print('')
-
-    msgAccueil = 'Vous etes bien connecte au serveur vous etes : %s' % it
-    connexion.send(msgAccueil.encode('Utf-8'))
+        print('ERREUR CONNEXION')

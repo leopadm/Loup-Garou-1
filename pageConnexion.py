@@ -73,7 +73,4 @@ if __name__ == '__main__':
     test.place(relx=0.5, rely=0.5, anchor=CENTER)
     test.grid()
 
-    test2 = Tableau(root, [['Alexandre', 'Connecte'],['Leopold', 'En cours']])
-    test2.place()
-
     root.mainloop()
