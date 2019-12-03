@@ -1,7 +1,7 @@
 import socket, sys, threading, time, random
 from v2.Jeu import Jeu
 
-HOST = '172.16.232.50'
+HOST = '192.168.1.20'
 PORT = 8888
 
 

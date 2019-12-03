@@ -9,3 +9,8 @@ class Voyante(Personnage):
 
     def regarde(self, perso):
         self.Emeteur.envoi(('regarde %s' % perso).encode('Utf-8'))
+
+    def affiche(self, reste):
+        print('')
+        # affiche le nom et le role de la personne demandee par regarde
+        # est appelee par recepteur.decompose()

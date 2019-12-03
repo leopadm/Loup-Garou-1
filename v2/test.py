@@ -1,12 +1,19 @@
+from json import *
+from io import StringIO
+
 class Edit(object):
     def __init__(self):
         self.value = 0
+        self.byte = 3
 
     def changeValue(self, new):
         self.value = new
 
     def readValue(self):
         return self.value
+
+    def __str__(self):
+        return str(self.__dict__)
 
 
 class Editeur(object):
@@ -19,13 +26,12 @@ class Editeur(object):
     def lire(self):
         return self.Edit.readValue()
 
+    def __str__(self):
+        return str(self.__dict__)
+
 LE = Edit()
 
 edit1 = Editeur(LE)
 edit2 = Editeur(LE)
 
-print(LE.readValue())
-edit1.editer(1)
-print(edit2.lire())
-edit1.editer(33)
-print(edit2.lire())
+print(type(LE.__dict__))
