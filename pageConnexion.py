@@ -3,6 +3,7 @@ import tkinter.font as tkFont
 from Assets.Ligne import *
 
 
+
 class pageConnexion(Frame):
     def __init__(self, root):
         gris = '#333333'
@@ -72,8 +73,5 @@ if __name__ == '__main__':
     test.grid_propagate(0)
     test.place(relx=0.5, rely=0.5, anchor=CENTER)
     test.grid()
-
-    test2 = Tableau(root, [['Alexandre', 'Connecte'],['Leopold', 'En cours']])
-    test2.place()
 
     root.mainloop()

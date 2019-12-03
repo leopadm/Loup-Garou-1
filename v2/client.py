@@ -4,15 +4,17 @@ import socket, sys
 
 class Personnage(Thread):
 
-    def __init__(self, pseudo, Emeteur, Jeu = ""):
-        super().__init__()
+    def __init__(self, pseudo, Emeteur, Jeu):
+        Thread.__init__(self)
         self.estVivant = True
         self.estProtege = False
         self.estMaire = False
         self.accesChat = 1
         self.pseudo = pseudo
-        self.connexion = Emeteur.getConnexion()
+        self.Emeteur = Emeteur
+        self.connexion = self.Emeteur.getConnexion()
         self.Jeu = Jeu
+        self.role = ''
 
     def tuer(self):
         valide = False
@@ -34,7 +36,7 @@ class Personnage(Thread):
 
 class Emission(object):
 
-    def __init__(self, HOST="172.16.230.184", PORT=8888):
+    def __init__(self, HOST="172.16.232.50", PORT=8888):
         self.connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.HOST = HOST
         self.PORT = PORT
@@ -76,8 +78,8 @@ class Reception(Thread):
         print('Connexion interrompue')
         self.connexion.close()
 
+
 Emi = Emission()
 Joueur = Personnage('Alex', Emi)
-Joueur.start()
 Recepteur = Reception(Emi, Joueur)
 Recepteur.start()
