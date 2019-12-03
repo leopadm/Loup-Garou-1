@@ -1,4 +1,5 @@
 import socket, sys, threading, time, random
+from v2.Jeu import Jeu
 
 HOST = '172.16.232.50'
 PORT = 8888
@@ -38,7 +39,7 @@ class ThreadClient(threading.Thread):
             self.Jeu.protege(reste)
 
         elif commande == 3:
-            self.Jeu.regarde(reste)
+            self.renvoi(self.Jeu.regarde(reste).encode('Utf-8'))
 
     def renvoi(self, message):
         connClient[self.nom].send(message.encode('Utf-8'))
@@ -61,6 +62,7 @@ class ThreadClient(threading.Thread):
         messageFin = '%s deconnecte' % self.nom
         self.envoiTous(messageFin)
 
+LeJeu = Jeu()
 
 mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -86,10 +88,8 @@ while 1:
 
     it = 'Client-' + str(compteur)
     compteur += 1
-    listeThread[it] = ThreadClient(connexion, it, listeRoles[numRole])
-    print(listeRoles[numRole])
+    listeThread[it] = ThreadClient(connexion, it, listeRoles[numRole], LeJeu)
     del listeRoles[numRole]
-    print(listeRoles)
 
     listeThread[it].start()
     connClient[it] = connexion

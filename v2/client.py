@@ -4,8 +4,8 @@ import socket, sys
 
 class Personnage(Thread):
 
-    def __init__(self, pseudo, Emeteur, Jeu=""):
-        super().__init__()
+    def __init__(self, pseudo, Emeteur, Jeu):
+        Thread.__init__(self)
         self.estVivant = True
         self.estProtege = False
         self.estMaire = False
@@ -14,6 +14,7 @@ class Personnage(Thread):
         self.Emeteur = Emeteur
         self.connexion = self.Emeteur.getConnexion()
         self.Jeu = Jeu
+        self.role = ''
 
     def tuer(self):
         valide = False

@@ -6,6 +6,7 @@ class Sorciere(Personnage):
         Personnage.__init__(self, pseudo, Emeteur)
         self.potionVie = True
         self.potionMort = True
+        self.role = 'sorciere'
 
     def tue(self, perso):
         self.Emeteur.envoi(('tue %s' % perso).encode('Utf-8'))

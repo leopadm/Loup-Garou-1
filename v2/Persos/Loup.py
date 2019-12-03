@@ -5,6 +5,7 @@ class Loup(Personnage):
     def __init__(self, pseudo, Emeteur):
         Personnage.__init__(self, pseudo, Emeteur)
         self.accesChat = 2
+        self.role = 'loup'
 
     def tue(self, perso):
         self.Emeteur.envoi(('tue %s' % perso).encode('Utf-8'))
