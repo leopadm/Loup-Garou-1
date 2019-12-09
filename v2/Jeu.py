@@ -5,16 +5,21 @@ class Jeu(object):
         self.nbrGentils = 0
         self.nbrLoups = 0
         self.tours = []
+        self.listeMortsPotentielles = []  # Liste des morts potentielle avant le vote du matin    |||| A effacer CHAQUE matin
+        self.listeProteges = []           # Liste des proteges durant la nuit                     |||| A effacer CHAQUE matin
 
     def regarde(self, pseudo):
-        role = self.Village[pseudo]
-        return 'rregarde %s' % role
+        try:
+            role = self.Village[pseudo]
+            return 'rregarde %s' % role
+        except:
+            return None
 
     def protege(self, pseudo):
-        print('')
+        self.listeProteges.append(pseudo)
 
     def tue(self, pseudo):
-        print('')
+        self.listeMortsPotentielles.append(pseudo)
 
     def tourSuivant(self):
         print('')

@@ -31,8 +31,8 @@ class ThreadClient(threading.Thread):
         commandList = ['tue', 'protege', 'regarde']
 
         # Formats demmandes:
-        #     tue:          "tue [pseudo]"           => returns :  True ou False
-        #     protege :     "protege [pseudo]"       => returns :  True ou False
+        #     tue:          "tue [pseudo]"           => returns :  NaN
+        #     protege :     "protege [pseudo]"       => returns :  Nan
         #     regarde :     "regarde [pseudo]"       => returns :  "rregarde %s' % role"
 
         commande = -1

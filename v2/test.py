@@ -36,5 +36,6 @@ edit2 = Editeur(LE)
 print(LE.__dict__)
 print(type(dumps(LE.__dict__)))
 print(dumps(LE.__dict__))
-Jeu = loads('{}')
-print(Jeu)
+Jeu = None
+if Jeu == 2:
+    print(Jeu)

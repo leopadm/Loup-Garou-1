@@ -12,14 +12,15 @@ class Personnage(Thread):
         self.pseudo = pseudo
         self.Emeteur = Emeteur
         self.connexion = self.Emeteur.getConnexion()
+
         # format de Jeu : {"Village":{"pseudo1" : "role1", "pseudo2" : "role2", ...}, "nbrGentils" : 0", "nbrLoups": 0, "tours": []}
         self.Jeu = {}
         self.role = ''
 
     def tuer(self):
-        valide = False
+        valide = True
         if self.estProtege != True:
-            valide = True
+            valide = False
         return valide
 
     def meurt(self):
