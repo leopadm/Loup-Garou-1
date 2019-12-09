@@ -15,7 +15,6 @@ class Edit(object):
     def __str__(self):
         return str(self.__dict__)
 
-
 class Editeur(object):
     def __init__(self, Edit):
         self.Edit = Edit
@@ -34,4 +33,8 @@ LE = Edit()
 edit1 = Editeur(LE)
 edit2 = Editeur(LE)
 
-print(type(LE.__dict__))
+print(LE.__dict__)
+print(type(dumps(LE.__dict__)))
+print(dumps(LE.__dict__))
+Jeu = loads('{}')
+print(Jeu)

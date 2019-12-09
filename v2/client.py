@@ -46,15 +46,16 @@ class Emission(object):
 
         try:
             self.connexion.connect((self.HOST, self.PORT))
+            print('Connecte au serveur')
         except socket.error:
             print('La liaison a echoue')
             sys.exit()
-        print('Connecte au serveur')
+
 
     def envoi(self, colis):
         self.connexion.send(colis.encode('Utf-8'))
 
-    def fermerConnection(self):
+    def fermerConnexion(self):
         self.connexion.close()
 
     def getConnexion(self):
@@ -70,14 +71,17 @@ class Reception(Thread):
         self.connexion = self.Emetteur.getConnexion()
 
     def run(self):
-        while True:
-            msgRecu = self.connexion.recv(1024).decode('Utf-8')
-            print(msgRecu)
-            if not msgRecu or msgRecu.upper() == 'FIN':
-                self.connexion.send('FIN'.encode('Utf-8'))
-                break
-            self.Joueur.updateCopieJeu(msgRecu)
-        self.Emetteur._stop()
+        self.running = True
+        while self.running:
+            try:
+                msgRecu = self.connexion.recv(1024).decode('Utf-8')
+                print(msgRecu)
+                if msgRecu.upper() == 'FIN':
+                    self.connexion.send('FIN'.encode('Utf-8'))
+                    self.stopThread()
+                    break
+            except:
+                self.Emetteur.fermerConnexion()
         print('Connexion interrompue')
         self.connexion.close()
 
@@ -100,6 +104,9 @@ class Reception(Thread):
 
         elif commande == 1:
             self.Joueur.updateCopieJeu(reste)
+
+    def stopThread(self):
+        self.running = False
 
 Emi = Emission()
 Joueur = Personnage('Alex', Emi)

@@ -12,13 +12,20 @@ class ThreadClient(threading.Thread):
         self.role = role
         self.connexion = conn
         self.nom = it
+        # Jeu est bien ici l'objet du village
         self.Jeu = Jeu
-        self.connexion.send(('Vous etes bien connecte au serveur vous etes : %s\nRole : %s' % (self.nom, self.role)).encode('Utf-8'))
+        msgVerif = 'Vous etes bien connecte au serveur vous etes : %s\nRole : %s' % (self.nom, self.role)
+        self.connexion.send(msgVerif.encode('Utf-8'))
 
     def run(self):
-        while True:
-            msgClient = self.connexion.recv(1024).decode('Utf-8')
-            self.decompose(msgClient)
+        self.running = True
+        while (self.running):
+            try:
+                msgClient = self.connexion.recv(1024).decode('Utf-8')
+                print(msgClient)
+                self.decompose(msgClient)
+            except:
+                self.deco()
 
     def decompose(self, msg):
         commandList = ['tue', 'protege', 'regarde']
@@ -41,26 +48,48 @@ class ThreadClient(threading.Thread):
         elif commande == 3:
             self.renvoi(self.Jeu.regarde(reste).encode('Utf-8'))
 
+        else:
+            print('Message dans un format non compatible')
+
     def renvoi(self, message):
-        connClient[self.nom].send(message.encode('Utf-8'))
+        try:
+            connClient[self.nom].send(message.encode('Utf-8'))
+            print(connClient[self.nom])
+        except:
+            print("Erreur de connexion 1")
+            self.deco()
 
     def envoiTous(self, message):
-        for cle in connClient:
-            connClient[cle].send(message.encode('Utf-8'))
-        print(message)
+        try:
+            for cle in connClient:
+                connClient[cle].send(message.encode('Utf-8'))
+            print(message)
+        except:
+            print("Erreur de connexion 2")
+            self.deco()
 
     def envoiTousSauf(self, message):
-        for cle in connClient:
-            if cle != self.nom:
-                connClient[cle].send(message.encode('Utf-8'))
-        print(message)
+        try:
+            for cle in connClient:
+                if cle != self.nom:
+                    connClient[cle].send(message.encode('Utf-8'))
+            print(message)
+        except:
+            print("Erreur de connexion 3")
+            self.deco()
 
     def deco(self):
-        self.connexion.close()
-        if self.nom in connClient.keys():
-            del connClient[self.nom]
-        messageFin = '%s deconnecte' % self.nom
-        self.envoiTous(messageFin)
+        try:
+            if self.nom in connClient.keys():
+                del connClient[self.nom]
+            messageFin = '%s deconnecte' % self.nom
+            self.envoiTous(messageFin)
+            self.connexion.close()
+        finally:
+            self.stopThread()
+
+    def stopThread(self):
+        self.running = False
 
 LeJeu = Jeu()
 
