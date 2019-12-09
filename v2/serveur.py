@@ -1,4 +1,4 @@
-import socket, sys, threading, time, random
+import socket, sys, threading, random
 from v2.Jeu import Jeu
 
 HOST = '192.168.1.20'
@@ -29,6 +29,11 @@ class ThreadClient(threading.Thread):
 
     def decompose(self, msg):
         commandList = ['tue', 'protege', 'regarde']
+
+        # Formats demmandes:
+        #     tue:          "tue [pseudo]"           => returns :  True ou False
+        #     protege :     "protege [pseudo]"       => returns :  True ou False
+        #     regarde :     "regarde [pseudo]"       => returns :  "rregarde %s' % role"
 
         commande = -1
         reste = ''
@@ -110,7 +115,7 @@ compteur = 1
 
 listeRoles = ['loup', 'loup', 'sorciere', 'chaman', 'voyante', 'salvateur', 'chasseur' ]
 
-while 1:
+while True:
     connexion, adresse = mySocket.accept()
 
     numRole = random.randint(0, len(listeRoles)-1)

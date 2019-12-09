@@ -8,17 +8,27 @@ class Jeu(object):
 
     def regarde(self, pseudo):
         role = self.Village[pseudo]
-        return role
+        return 'rregarde %s' % role
+
+    def protege(self, pseudo):
+        print('')
+
+    def tue(self, pseudo):
+        print('')
 
     def tourSuivant(self):
-        print("")
+        print('')
 
     def removePerso(self, pseudo):
-        del self.Village[pseudo]
-
-    def updateMorts(self):
-        print('')
+        try:
+            del self.Village[pseudo]
+            return True
+        except:
+            return False
 
     def ajoutPerso(self, reste):
         pseudo, role = reste.split()
         self.Village[pseudo] = role
+
+    def updateMorts(self):
+        print('')

@@ -1,41 +1,7 @@
 from threading import Thread
 import socket, sys
 from v2.Jeu import Jeu
-from json import dumps, loads
-
-
-class Personnage(Thread):
-
-    def __init__(self, pseudo, Emeteur):
-        Thread.__init__(self)
-        self.estVivant = True
-        self.estProtege = False
-        self.estMaire = False
-        self.accesChat = 1
-        self.pseudo = pseudo
-        self.Emeteur = Emeteur
-        self.connexion = self.Emeteur.getConnexion()
-        # format de Jeu : {"Village":{"pseudo1" : "role1", "pseudo2" : "role2", ...}, "nbrGentils" : 0", "nbrLoups": 0, "tours": []}
-        self.Jeu = {}
-        self.role = ''
-
-    def tuer(self):
-        valide = False
-        if self.estProtege != True:
-            valide = True
-        return valide
-
-    def meurt(self):
-        print("")
-
-    def vote(self, pseudo):
-        pouvoir = 1
-        if self.estMaire == True:
-            pouvoir = 2
-
-    def updateCopieJeu(self, nouveau):
-        self.Jeu = loads(nouveau)
-
+from v2.Personnage import Personnage
 
 class Emission(object):
 
