@@ -1,6 +1,5 @@
 from threading import Thread
 import socket, sys
-from v2.Jeu import Jeu
 from v2.Personnage import Personnage
 
 class Emission(object):

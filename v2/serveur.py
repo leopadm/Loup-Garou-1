@@ -12,7 +12,7 @@ class ThreadClient(threading.Thread):
         self.role = role
         self.connexion = conn
         self.nom = it
-        # Jeu est bien ici l'objet du village
+        # Jeu est bien ici la reference à l'objet du village
         self.Jeu = Jeu
         msgVerif = 'Vous etes bien connecte au serveur vous etes : %s\nRole : %s' % (self.nom, self.role)
         self.connexion.send(msgVerif.encode('Utf-8'))
